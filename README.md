@@ -51,7 +51,7 @@ Verificar instalação:
 python -m django --version
 ```
 
-### 4. Instalar dependências do projeto (se houver)
+### 4. Instalar dependências do projeto
 ```bash
 pip install -r requirements.txt
 ```
