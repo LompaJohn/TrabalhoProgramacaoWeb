@@ -5,15 +5,16 @@ O **SGEA** é um sistema web desenvolvido para gerenciar eventos acadêmicos, co
 ---
 
 ## Funcionalidades Principais
-1. **Cadastro de usuários** (alunos, professores, organizadores)  
-   - Nome, telefone, instituição, login e senha.  
-2. **Autenticação de usuários**  
-   - Controle de acesso com base no perfil.  
-3. **Cadastro e gerenciamento de eventos**  
-   - Tipo, data, horário e local.  
-4. **Inscrição de usuários em eventos**  
-   - Participação vinculada ao evento.  
-5. **Emissão de certificados**  
+
+1. **Cadastro de usuários** (alunos, professores, organizadores)
+   - Nome, telefone, instituição, login e senha.
+2. **Autenticação de usuários**
+   - Controle de acesso com base no perfil.
+3. **Cadastro e gerenciamento de eventos**
+   - Tipo, data, horário e local.
+4. **Inscrição de usuários em eventos**
+   - Participação vinculada ao evento.
+5. **Emissão de certificados**
    - Somente para inscritos nos eventos.
 
 ---
@@ -21,69 +22,65 @@ O **SGEA** é um sistema web desenvolvido para gerenciar eventos acadêmicos, co
 ## Funcionamento do Projeto
 
 ### 1. Verificar Python
+
 Verifique se o **Python 3.13** está instalado:
+
 ```bash
 python --version
 ```
 
-### 2. Criar ambiente virtual
+### 2. Instlar o ambiente virtual
+
+Esse projeto usa [pipenv](https://pypi.org/project/pipenv/)
+
 ```bash
-python -m venv venv
+pip install pipenv
+pipenv install # instalar dependencias
+pipenv shell # entrar no enviroment
 ```
 
-Ativar:
-- **Windows:**
-  ```bash
-  venv\Scripts\activate
-  ```
-- **Linux/macOS:**
-  ```bash
-  source venv/bin/activate
-  ```
+### 3. Criar o arquivo .env
 
-### 3. Instalar o Django
 ```bash
-pip install django
+SECRET_KEY=sua-secret-key
 ```
 
-Verificar instalação:
-```bash
-python -m django --version
-```
+### 4. Aplicar migrações
 
-### 4. Instalar dependências do projeto
 ```bash
-pip install -r requirements.txt
-```
-
-### 5. Aplicar migrações
-```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Criar superusuário
+### 5. Criar superusuário
+
 ```bash
 python manage.py createsuperuser
 ```
 
-### 7. Rodar o servidor
+### 6. Rodar o servidor
+
 ```bash
 python manage.py runserver
 ```
 
-Acesse em:
-```
-http://127.0.0.1:8000/
-```
+Acesse em: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+Para criar contas, acesse a página [/admin](http://127.0.0.1:8000/admin) com sua conta de superusuário.
+Para fazer login em uma conta de um usuário específico, acesse [/login](http://127.0.0.1:8000/login).
+Acessando com a conta de organizador, será possível criar eventos e emitir certificados.
+Com a conta de um aluno ou professor, é possível se inscrever em eventos, cancelar suas inscrições e ver seus certificados.
 
 Para parar o servidor, pressione **Ctrl + C**.
 
 ### 8. Desativar o ambiente virtual
+
 ```bash
-deactivate
+exit
 ```
 
 ---
 
 ## Autores
+
 Projeto desenvolvido por Lucca Rosal, Guilerhme Lompa e Davi Tomasini

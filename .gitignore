@@ -1,1 +1,5 @@
-*.html
+db.sqlite3
+pyrightconfig.json
+.env
+migrations
+script.py
