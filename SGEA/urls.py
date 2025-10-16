@@ -17,7 +17,41 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+from lista_eventos.views import (
+    EventoListView,
+    EventoCreateView,
+    EventoUpdateView,
+    desinscrever_evento_view,
+    emitir_certificado_view,
+    get_usuarios_de_evento,
+    inscrever_evento_view,
+    inscricoes_lista_view,
+    pagina_inicial_view,
+    lista_certificados_view,
+)
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", pagina_inicial_view, name="pagina-inicial"),
+    path("eventos/", EventoListView.as_view(), name="lista-eventos"),
+    path("inscricoes/", inscricoes_lista_view, name="lista-inscricoes"),
+    path("eventos/novo/", EventoCreateView.as_view(), name="criar-evento"),
+    path("eventos/<int:pk>/inscrever", inscrever_evento_view, name="inscrever-evento"),
+    path(
+        "inscricoes/<int:pk>/desinscrever",
+        desinscrever_evento_view,
+        name="desinscrever-evento",
+    ),
+    path("certificados/", lista_certificados_view, name="lista-certificados"),
+    path("certificados/emitir", emitir_certificado_view, name="emitir-certificado"),
+    path("eventos/<int:pk>/editar", EventoUpdateView.as_view(), name="editar-evento"),
+    path(
+        "ajax/get_usuarios_evento",
+        get_usuarios_de_evento,
+        name="get-usuarios-de-evento",
+    ),
+    path(
+        "login/", auth_views.LoginView.as_view(template_name="login.html"), name="login"
+    ),
 ]

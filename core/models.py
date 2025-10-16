@@ -16,7 +16,7 @@ class Usuario(models.Model):
     nome = models.CharField(max_length=255)
     telefone = models.CharField(max_length=255, unique=True)
     instituicao = models.CharField(max_length=255, null=True)
-    perfil = models.CharField()  # ?
+    perfil = models.TextField(max_length=1000)
     tipo = models.CharField(max_length=2, choices=UsuarioTipo.choices)
     data_cadastro = models.DateTimeField(auto_now_add=True)
 
@@ -26,7 +26,8 @@ class EventoTipo(models.TextChoices):
     PALESTRA = "PL", _("palestra")
 
 
-def validar_organizador(usuario: Usuario):
+def validar_organizador(usuario_pk: int):
+    usuario = Usuario.objects.get(pk=usuario_pk)
     if usuario.tipo != UsuarioTipo.ORGANIZADOR:
         raise ValidationError(
             _("usuário '%(usuario)s' não eh um organizador"),
@@ -36,14 +37,16 @@ def validar_organizador(usuario: Usuario):
 
 class Evento(models.Model):
     tipo = models.CharField(max_length=2, choices=EventoTipo.choices)
+    nome = models.CharField(max_length=255)
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_inicio = models.DateTimeField()
     data_fim = models.DateTimeField()
     local = models.CharField(max_length=255)
     participantes = models.IntegerField(
+        default=0,
         validators=[
             MinValueValidator(0),
-        ]
+        ],
     )
     organizador = models.ForeignKey(
         Usuario,
@@ -52,6 +55,12 @@ class Evento(models.Model):
             validar_organizador,
         ],
     )
+
+    def clean(self):
+        if self.data_fim <= self.data_inicio:
+            raise ValidationError(
+                "A data de término deve ser posterior à data de início."
+            )
 
 
 class Inscricao(models.Model):
@@ -64,6 +73,9 @@ class Inscricao(models.Model):
         on_delete=models.CASCADE,
     )
     data_inscricao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ["usuario", "evento"]
 
 
 class Certificado(models.Model):
