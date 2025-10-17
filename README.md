@@ -83,4 +83,4 @@ exit
 
 ## Autores
 
-Projeto desenvolvido por Lucca Rosal, Guilerhme Lompa e Davi Tomasini
+Projeto desenvolvido por Lucca Rosal, Guilherme Lompa e Davi Tomasini
