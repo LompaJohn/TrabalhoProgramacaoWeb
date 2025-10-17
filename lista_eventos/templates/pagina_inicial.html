@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'lista-eventos' %}" class="btn btn-primary mb-3">Lista de Eventos</a>
+
+{% if user.is_authenticated and user.usuario.tipo != 'OR' %}
+<a href="{% url 'lista-inscricoes' %}" class="btn btn-primary mb-3">Inscrições</a>
+{% endif %}
+
+{% if user.is_authenticated and user.usuario.tipo != 'OR' %}
+<a href="{% url 'lista-certificados' %}" class="btn btn-primary mb-3">Certificados</a>
+{% endif %}
+
+{% if user.is_authenticated and user.usuario.tipo == 'OR' %}
+<a href="{% url 'emitir-certificado' %}" class="btn btn-primary mb-3">Emitir Certificado</a>
+{% endif %}
+
+
+{% endblock %}

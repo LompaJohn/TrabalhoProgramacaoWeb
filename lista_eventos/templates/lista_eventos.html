@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Eventos Disponíveis</h2>
+<div class="list-group">
+    <div class="list-group-item">
+    <a href="{% url 'pagina-inicial' %}" class="btn btn-primary mb-3">Voltar</a>
+    </div>
+{% if user.is_authenticated and user.usuario.tipo == 'OR' %}
+    <div class="list-group-item">
+    <a href="{% url 'criar-evento' %}" class="btn btn-primary mb-3">Criar Novo Evento</a>
+    </div>
+{% endif %}
+</div>
+
+<div class="list-group">
+    {% for evento in eventos %}
+    <div class="list-group-item">
+        <h5>{{ evento.nome }}</h5>
+        <p><strong>Tipo:</strong> {{ evento.get_tipo_display }}</p>
+        <p><strong>Data:</strong> {{ evento.data_inicio|date:"d/m/Y H:i" }} - {{ evento.data_fim|date:"d/m/Y H:i" }}</p>
+        <p><strong>Local:</strong> {{ evento.local }}</p>
+        <p><strong>Organizador:</strong> {{ evento.organizador.nome }}</p>
+
+        {% if user.is_authenticated and user.usuario.tipo == 'OR' %}
+        <p><strong>Participantes:</strong> {{ evento.participantes }}</p>
+        {% endif %}
+
+        {% if user.is_authenticated and user.usuario.tipo != 'OR' %}
+            {% if evento.id in user_inscricoes%}
+                <button class="btn btn-secondary btn-sm" disabled>Já Inscrito</button>
+            {% else %}
+                <form method="post" action="{% url 'inscrever-evento' evento.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">Inscrever-se</button>
+                </form>
+            {% endif %}
+        {% endif %}
+
+    </div>
+    {% empty %}
+    <p>Nenhum evento disponível.</p>
+    {% endfor %}
+</div>
+{% endblock %}

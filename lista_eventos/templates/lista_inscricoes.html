@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Inscrições</h2>
+<div class="list-group">
+    <div class="list-group-item">
+    <a href="{% url 'pagina-inicial' %}" class="btn btn-primary mb-3">Voltar</a>
+    </div>
+</div>
+
+<div class="list-group">
+    {% for evento in eventos %}
+    <div class="list-group-item">
+        <h5>{{ evento.nome }}</h5>
+        <p><strong>Tipo:</strong> {{ evento.get_tipo_display }}</p>
+        <p><strong>Data:</strong> {{ evento.data_inicio|date:"d/m/Y H:i" }} - {{ evento.data_fim|date:"d/m/Y H:i" }}</p>
+        <p><strong>Local:</strong> {{ evento.local }}</p>
+        <p><strong>Organizador:</strong> {{ evento.organizador.nome }}</p>
+
+        <form method="post" action="{% url 'desinscrever-evento' evento.id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">Cancelar Inscrição</button>
+        </form>
+
+    </div>
+    {% empty %}
+    <p>Nenhuma inscrição disponível.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
