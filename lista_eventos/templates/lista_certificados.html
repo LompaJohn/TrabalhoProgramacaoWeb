@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Certificados</h2>
+<div class="list-group">
+  <div class="list-group-item">
+    <a href="{% url 'pagina-inicial' %}" class="btn btn-primary mb-3">Voltar</a>
+  </div>
+</div>
+
+<div class="list-group">
+  {% for cert in certificados %}
+  <div class="list-group-item">
+    <h5>{{ cert.evento.nome }}</h5>
+    <p><strong>Tipo:</strong> {{ cert.evento.get_tipo_display }}</p>
+    <p>
+      <strong>Data:</strong> {{ cert.evento.data_inicio|date:"d/m/Y H:i" }} - {{ cert.evento.data_fim|date:"d/m/Y H:i" }}
+    </p>
+    <p><strong>Local:</strong> {{ cert.evento.local }}</p>
+    <p><strong>Organizador:</strong> {{ cert.evento.organizador.nome }}</p>
+    <p>
+      <strong>Data de Emissão</strong> {{ cert.data_emissao|date:"d/m/Y H:i" }}
+    </p>
+  </div>
+  {% empty %}
+  <p>Nenhum certificado disponível.</p>
+  {% endfor %}
+</div>
+{% endblock %}

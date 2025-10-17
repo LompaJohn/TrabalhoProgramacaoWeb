@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+<form method="post">
+  {% csrf_token %}
+
+  <p>
+    <label>Evento:</label>
+    {{ form.evento }}
+  </p>
+
+  <p>
+    <label>Participante:</label>
+    {{ form.usuario }}
+  </p>
+
+  <button type="submit">Emitir Certificado</button>
+</form>
+
+<script>
+  document.getElementById("id_evento").addEventListener("change", function () {
+    const eventoId = this.value;
+    const usuarioSelect = document.getElementById("id_usuario");
+
+    if (!eventoId) {
+      usuarioSelect.innerHTML = '<option value="">Selecione um evento</option>';
+      return;
+    }
+
+    fetch('{% url "get-usuarios-de-evento" %}?evento_id=' + eventoId)
+      .then((response) => response.json())
+      .then((data) => {
+        usuarioSelect.innerHTML =
+          '<option value="">Selecione um participante</option>';
+        usuarioSelect.children;
+        data.usuarios.forEach((usuario) => {
+          const option = document.createElement("option");
+          option.value = usuario.id;
+          option.textContent = usuario.nome;
+          usuarioSelect.appendChild(option);
+        });
+      });
+  });
+</script>
+
+{% endblock %}

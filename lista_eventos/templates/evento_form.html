@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method="post">
+      {% csrf_token %} {% if form.non_field_errors %}
+      <div style="color: red; margin-bottom: 15px">
+        <strong>Erros:</strong>
+        <ul>
+          {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="form-field">
+        <label>Tipo de Evento:</label>
+        {{ form.tipo }} {% if form.tipo.errors %}
+        <div style="color: red">{{ form.tipo.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label>Nome do Evento:</label>
+        {{ form.nome }} {% if form.nome.errors %}
+        <div style="color: red">{{ form.nome.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label>Data de Início:</label>
+        {{ form.data_inicio }} {% if form.data_inicio.errors %}
+        <div style="color: red">{{ form.data_inicio.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label>Data de Término:</label>
+        {{ form.data_fim }} {% if form.data_fim.errors %}
+        <div style="color: red">{{ form.data_fim.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label>Local:</label>
+        {{ form.local }} {% if form.local.errors %}
+        <div style="color: red">{{ form.local.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-field">
+        <label>Organizador:</label>
+        {{ form.organizador }} {% if form.organizador.errors %}
+        <div style="color: red">{{ form.organizador.errors }}</div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Salvar Evento</button>
+      <a href="{% url 'lista-eventos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </body>
+{% endblock %}
